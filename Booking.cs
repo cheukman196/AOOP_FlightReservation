@@ -9,6 +9,7 @@ namespace AOOP_GroupProject_draft1
     class Booking
     {
         private static int uniqueBookingNumber = 100;
+        private static bool loadBookingDisabled = false;
 
         private int bookingNumber;
         private string bookingDate;
@@ -21,7 +22,14 @@ namespace AOOP_GroupProject_draft1
             this.flight = flight;
             bookingNumber = uniqueBookingNumber++;
             bookingDate = DateTime.Now.ToString(@"MM\/dd\/yyyy h\:mm tt");
+        }
 
+        private Booking(int bookingNumber, string bookingDate, Flight flight, Customer customer)
+        {
+            this.customer = customer;
+            this.flight = flight;
+            bookingNumber = bookingNumber;
+            bookingDate = bookingDate;
         }
 
         // getters
@@ -30,8 +38,14 @@ namespace AOOP_GroupProject_draft1
         public Customer getCustomer() { return customer; }
         public Flight getFlight() { return flight; }
         public static int getUniqueBookingNumber() { return uniqueBookingNumber; }
+        public static void disableLoadBooking() { loadBookingDisabled = true; }
 
-        // no setters (create new booking if customers want to modify booking)
+        public static Booking loadBooking(int bookingNumber, string bookingDate, Flight flight, Customer customer)
+        {
+            if (loadBookingDisabled)
+                return null;
+            return new Booking(bookingNumber, bookingDate, flight, customer);
+        }
 
         public override string ToString()
         {

@@ -56,6 +56,9 @@ namespace AOOP_GroupProject_draft1
 
             UtilsTextFile.saveClassUniqueID(UtilsTextFile.uniqueClassIDFilePath, Customer.getUniqueCustomerID(), Booking.getUniqueBookingNumber());
 
+            CustomerManager loadedCustomerManager = UtilsTextFile.loadCustomerFile(UtilsTextFile.customerManagerFilePath);
+
+            Console.WriteLine(loadedCustomerManager.viewCustomers());
         }
     }
 }

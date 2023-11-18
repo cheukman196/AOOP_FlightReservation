@@ -9,6 +9,7 @@ namespace AOOP_GroupProject_draft1
     class Customer
     {
         private static int uniqueCustomerID = 100;
+        private static bool loadCustomerDisabled = false;
 
         private int customerID;
         private string firstName;
@@ -25,6 +26,15 @@ namespace AOOP_GroupProject_draft1
             this.bookingsCount = 0;
         }
 
+        private Customer(int customerID, string fName, string lName, string phone, int bookingsCount)
+        {
+            this.customerID = customerID;
+            this.firstName = fName;
+            this.lastName = lName;
+            this.phone = phone;
+            this.bookingsCount = bookingsCount;
+        }
+
         // getters
         public int getCustomerID() { return customerID; }
         public string getFirstName() { return firstName; }
@@ -35,12 +45,18 @@ namespace AOOP_GroupProject_draft1
         public static int getUniqueCustomerID() { return uniqueCustomerID; }
 
         // setters
-        public void setCustomerID(int id) { customerID = id; }
         public void setFirstName(string value) { firstName = value; }
         public void setLastName(string value) { lastName = value; }
         public void setPhone(string value) { phone = value; }
         public void increaseBookingsCount() { bookingsCount++; }
-        public void setBookingsCount(int value) { bookingsCount = value; }
+
+        public static void disableLoadCustomer() { loadCustomerDisabled = true; }
+        public static Customer loadCustomer(int customerID, string fName, string lName, string phone, int bookingCount)
+        {
+            if (loadCustomerDisabled)
+                return null;
+            return new Customer(customerID, fName, lName, phone, bookingCount);
+        }
 
         public override string ToString()
         {

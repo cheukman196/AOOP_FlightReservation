@@ -34,31 +34,36 @@ namespace AOOP_GroupProject_draft1
             }
         }
 
-        //public static Customer[] loadCustomerFile(string filePath)
-        //{
-        //    if (!File.Exists(filePath))
-        //        return null;
+        public static CustomerManager loadCustomerFile(string filePath)
+        {
 
-        //    using (StreamReader sr = new StreamReader(filePath))
-        //    {
-        //        int customerCount = int.Parse(sr.ReadLine());
-        //        Customer[] customerList = new Customer[customerCount + 100];
-        //        for (int i = 0; i < customerCount; i++)
-        //        {
-        //            string[] customerInfo = sr.ReadLine().Split();
-        //            int customerID = int.Parse(customerInfo[0]);
-        //            string firstName = customerInfo[1];
-        //            string lastName = customerInfo[2];
-        //            string phone = customerInfo[3];
-        //            int bookingsCount = int.Parse(customerInfo[4]);
+            if (!File.Exists(filePath))
+                return null;
 
-        //            customerList[i] = new Customer(firstName, lastName, phone);
-        //            customerList[i].setCustomerID(customerID);
-        //            customerList[i].setBookingsCount(bookingsCount);
-        //        }
-        //    }
+            CustomerManager cm = null;
+            Customer[] customerList = null;
 
-        //}
+            using (StreamReader sr = new StreamReader(filePath))
+            {
+                int customerCount = int.Parse(sr.ReadLine());
+                int maxCustomer = customerCount + 100;
+                customerList = new Customer[maxCustomer];
+                for (int i = 0; i < customerCount; i++)
+                {
+                    string[] customerInfo = sr.ReadLine().Split();
+                    int customerID = int.Parse(customerInfo[0]);
+                    string firstName = customerInfo[1];
+                    string lastName = customerInfo[2];
+                    string phone = customerInfo[3];
+                    int bookingsCount = int.Parse(customerInfo[4]);
+
+                    customerList[i] = Customer.loadCustomer(customerID, firstName, lastName, phone, bookingsCount);
+                }
+                cm = CustomerManager.loadCustomerManager(customerCount, maxCustomer, customerList);
+            }
+            Customer.disableLoadCustomer();
+            return cm;
+        }
 
         public static void saveFlightFile(string filePath, int flightCount, Flight[] flightList)
         {
@@ -84,6 +89,8 @@ namespace AOOP_GroupProject_draft1
             
         }
 
+
+
         public static void saveBookingFile(string filePath, int bookingCount, Booking[] bookingList)
         {
             using (StreamWriter sw = new StreamWriter(filePath, false))
@@ -92,7 +99,7 @@ namespace AOOP_GroupProject_draft1
                 for (int i = 0; i < bookingCount; i++)
                 {
                     int bookingNumber = bookingList[i].getBookingNumber();
-                    string bookingDate = bookingList[i].getBookingDate();
+                    string bookingDate = bookingList[i].getBookingDate().Replace(" ", "-");
                     int flightNumber = bookingList[i].getFlight().getFlightNumber();
                     int customerID = bookingList[i].getCustomer().getCustomerID();
                     sw.WriteLine(bookingNumber + " " + bookingDate + " " + flightNumber + " " + customerID);

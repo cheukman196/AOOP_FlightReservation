@@ -8,6 +8,8 @@ namespace AOOP_GroupProject_draft1
 {
     class Flight
     {
+        private static bool loadFlightDisabled = false;
+
         private int flightNumber;
         private string origin;
         private string destination;
@@ -25,6 +27,15 @@ namespace AOOP_GroupProject_draft1
             this.passengerList = new Customer[maxSeats];
         }
 
+        private Flight(int flightNumber, string origin, string destination, int maxSeats, int passengerCount, Customer[] passengerList)
+        {
+            this.flightNumber = flightNumber;
+            this.origin = origin;
+            this.destination = destination;
+            this.maxSeats = maxSeats;
+            this.passengerCount = passengerCount;
+            this.passengerList = passengerList;
+        }
 
         // getters
         public int getFlightNumber() { return flightNumber; }
@@ -38,7 +49,7 @@ namespace AOOP_GroupProject_draft1
         public void setFlightNumber(int value) { flightNumber = value; }
         public void setOrigin(string value) { origin = value; }
         public void setDesination(string value) { destination = value; }
-
+        public void disableLoadFlight() { loadFlightDisabled = true; }
         // Overloaded method
         // Find passenger: try to find passenger by int CustomerID/Customer object in passengerList
         // If found, return index found; If not found, return -1
@@ -88,6 +99,7 @@ namespace AOOP_GroupProject_draft1
             return false;
         }
 
+
         public override string ToString()
         {
             string s = "\n========= Flight Information ==========";
@@ -105,6 +117,13 @@ namespace AOOP_GroupProject_draft1
                 s += "\nFlight is currently not booked by any customers.";
 
             return s;
+        }
+
+        public static Flight loadFlight(int flightNumber, string origin, string destination, int maxSeats, int passengerCount, Customer[] passengerList)
+        {
+            if (loadFlightDisabled)
+                return null;
+            return new Flight(flightNumber, origin, destination, maxSeats, passengerCount, passengerList);
         }
     }
 }

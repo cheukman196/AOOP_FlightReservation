@@ -19,6 +19,13 @@ namespace AOOP_GroupProject_draft1
             this.customerList = new Customer[max];
         }
 
+        private CustomerManager(int customerCount, int maxCustomers, Customer[] customerList)
+        {
+            this.customerCount = customerCount;
+            this.maxCustomers = maxCustomers;
+            this.customerList = customerList;
+        }
+
         public int getCustomerCount() { return customerCount; }
         public int getMaxCustomers() { return maxCustomers; }
         public Customer[] getCustomerList() { return customerList; }
@@ -119,6 +126,9 @@ namespace AOOP_GroupProject_draft1
 
         }
 
-
-}
+        public static CustomerManager loadCustomerManager(int customerCount, int maxCustomers, Customer[] customerList)
+        {
+            return new CustomerManager(customerCount, maxCustomers, customerList);
+        }
+    }
 }
