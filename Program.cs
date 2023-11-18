@@ -4,59 +4,58 @@ namespace AOOP_GroupProject_draft1
 {
     class Program
     {
+        static AirlineCoordinator aCoord;
         static void Main(string[] args)
         {
-
-            // Flight Manager Test
             FlightManager fm = new FlightManager(200);
-            fm.createFlight(111, "HKG", "YYZ", 20);
-            fm.createFlight(222, "FDA", "BDE", 10);
-            fm.createFlight(333, "XPT", "NLQ", 4);
-            fm.createFlight(444, "EUT", "PKP", 35);
-            fm.createFlight(111, "HKG", "YYZ", 20);
+            CustomerManager cm = new CustomerManager(200);
+            BookingManager bm = new BookingManager(300);
+            aCoord = new AirlineCoordinator(fm, cm, bm);
 
-            fm.viewFlights();
-            Console.WriteLine(fm.deleteFlight(221));
-            fm.deleteFlight(222);
-            Console.WriteLine(fm.viewFlights());
-            Console.WriteLine(fm.viewParticularFlight(111));
-            Console.WriteLine(fm.viewParticularFlight(332));
+            aCoord.createFlight(111, "HKG", "YYZ", 4);
+            aCoord.createFlight(222, "FDA", "BDE", 10);
+            aCoord.createFlight(333, "XPT", "NLQ", 20);
+            aCoord.createFlight(444, "EUT", "PKP", 35);
 
+            aCoord.createCustomer("Lee", "Adams", "1111");
+            aCoord.createCustomer("Queenie", "Merriweather", "2222");
+            aCoord.createCustomer("Ian", "Kojima", "3333");
+            aCoord.createCustomer("Levi", "Arson", "4444");
+            aCoord.createCustomer("Ashe", "Larson", "5555");
 
+            aCoord.makeBooking(111, 100, out string errorA);
+            aCoord.makeBooking(111, 101, out string errorB);
+            aCoord.makeBooking(111, 102, out string errorC);
+            aCoord.makeBooking(111, 103, out string errorD);
+            aCoord.makeBooking(111, 104, out string errorE);
+            aCoord.makeBooking(222, 101, out string errorF);
+            aCoord.makeBooking(333, 102, out string errorG);
+            aCoord.makeBooking(444, 103, out string errorH);
 
-            Customer c1 = new Customer("Lee", "Adams", "1111");
-            Customer c2 = new Customer("Queenie", "Merriweather", "2222");
-            Customer c3 = new Customer("Ian", "Kojima", "3333");
-            Customer c4 = new Customer("Levi", "Arson", "4444");
+            Console.WriteLine(aCoord.deleteCustomer(100, out string errorI));
+            Console.WriteLine(aCoord.deleteCustomer(101, out string errorJ));
+            Console.WriteLine(aCoord.deleteFlight(111, out string errorK));
+            Console.WriteLine(aCoord.deleteFlight(222, out string errorL));
 
+            Console.WriteLine(errorA + " " + errorB + " " + errorC + " " + errorD);
+            Console.WriteLine(errorE + " " + errorF + " " + errorG + " " + errorH);
+            Console.WriteLine(errorI + " " + errorJ + " " + errorK + " " + errorL);
 
-            // // Base Classes Testing
-            //Flight f1 = new Flight(111, "HKG", "YYZ", 20);
-            //Flight f2 = new Flight(222, "FDA", "BDE", 10);
-            //Flight f3 = new Flight(333, "XPT", "NLQ", 4);
-            //Flight f4 = new Flight(444, "EUT", "PKP", 35);
+            Console.WriteLine(aCoord.viewFlights());
+            Console.WriteLine(aCoord.viewCustomers());
+            Console.WriteLine(aCoord.viewBookings());
 
-            //Booking b1 = new Booking(f1, c1);
-            //Booking b2 = new Booking(f1, c2);
-            //Booking b3 = new Booking(f1, c3);
-            //Booking b4 = new Booking(f2, c4);
-            //Booking b5 = new Booking(f3, c1);
-            //Booking b6 = new Booking(f3, c3);
+            UtilsTextFile.saveFlightFile(UtilsTextFile.flightManagerFilePath,
+                aCoord.getFlightManager().getFlightCount(), aCoord.getFlightManager().getFlightList());
 
-            //f1.addPassenger(c1);
-            //f1.addPassenger(c2);
-            //f1.addPassenger(c3);
-            //f2.addPassenger(c4);
-            //f3.addPassenger(c1);
-            //f3.addPassenger(c3);
-            //f1.removePassenger(100);
+            UtilsTextFile.saveCustomerFile(UtilsTextFile.customerManagerFilePath,
+               aCoord.getCustomerManager().getCustomerCount(), aCoord.getCustomerManager().getCustomerList());
 
-            //Console.WriteLine(c1.ToString());
-            //Console.WriteLine(c2.ToString());
-            //Console.WriteLine(f1.ToString());
-            //Console.WriteLine(f2.ToString());
-            //Console.WriteLine(b1.ToString());
-            //Console.WriteLine(b6.ToString());
+            UtilsTextFile.saveBookingFile(UtilsTextFile.bookingManagerFilePath,
+               aCoord.getBookingManager().getBookingCount(), aCoord.getBookingManager().getBookingList());
+
+            UtilsTextFile.saveClassUniqueID(UtilsTextFile.uniqueClassIDFilePath, Customer.getUniqueCustomerID(), Booking.getUniqueBookingNumber());
+
         }
     }
 }

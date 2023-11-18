@@ -21,6 +21,7 @@ namespace AOOP_GroupProject_draft1
             this.flight = flight;
             bookingNumber = uniqueBookingNumber++;
             bookingDate = DateTime.Now.ToString(@"MM\/dd\/yyyy h\:mm tt");
+
         }
 
         // getters
@@ -28,6 +29,7 @@ namespace AOOP_GroupProject_draft1
         public string getBookingDate() { return bookingDate; }
         public Customer getCustomer() { return customer; }
         public Flight getFlight() { return flight; }
+        public static int getUniqueBookingNumber() { return uniqueBookingNumber; }
 
         // no setters (create new booking if customers want to modify booking)
 

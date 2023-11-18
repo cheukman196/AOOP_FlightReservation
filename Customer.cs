@@ -16,11 +16,11 @@ namespace AOOP_GroupProject_draft1
         private string phone;
         private int bookingsCount;
 
-        public Customer(string fname, string lname, string phone)
+        public Customer(string fName, string lName, string phone)
         {
             this.customerID = uniqueCustomerID++;
-            this.firstName = fname;
-            this.lastName = lname;
+            this.firstName = fName;
+            this.lastName = lName;
             this.phone = phone;
             this.bookingsCount = 0;
         }
@@ -32,12 +32,15 @@ namespace AOOP_GroupProject_draft1
         public string getPhone() { return phone; }
         public int getBookingsCount() { return bookingsCount; }
 
+        public static int getUniqueCustomerID() { return uniqueCustomerID; }
+
         // setters
+        public void setCustomerID(int id) { customerID = id; }
         public void setFirstName(string value) { firstName = value; }
         public void setLastName(string value) { lastName = value; }
         public void setPhone(string value) { phone = value; }
         public void increaseBookingsCount() { bookingsCount++; }
-        public void decreaseBookingsCount() { bookingsCount--; }
+        public void setBookingsCount(int value) { bookingsCount = value; }
 
         public override string ToString()
         {
