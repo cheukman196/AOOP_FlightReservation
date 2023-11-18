@@ -19,6 +19,13 @@ namespace AOOP_GroupProject_draft1
             this.flightList = new Flight[maxFlights];
         }
 
+        private FlightManager(int flightCount, int maxFlights, Flight[] flightList)
+        {
+            this.flightCount = flightCount;
+            this.maxFlights = maxFlights;
+            this.flightList = flightList;
+        }
+
         public int getFlightCount() { return flightCount; }
         public int getMaxFlights() { return maxFlights; }
         public Flight[] getFlightList() { return flightList; }
@@ -125,5 +132,9 @@ namespace AOOP_GroupProject_draft1
             return null;
         }
 
+        public static FlightManager loadFlightManager(int flightCount, int maxFlights, Flight[] flightList)
+        {
+            return new FlightManager(flightCount, maxFlights, flightList);
+        }
     }
 }

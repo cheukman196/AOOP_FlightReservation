@@ -49,7 +49,7 @@ namespace AOOP_GroupProject_draft1
         public void setFlightNumber(int value) { flightNumber = value; }
         public void setOrigin(string value) { origin = value; }
         public void setDesination(string value) { destination = value; }
-        public void disableLoadFlight() { loadFlightDisabled = true; }
+        public static void disableLoadFlight() { loadFlightDisabled = true; }
         // Overloaded method
         // Find passenger: try to find passenger by int CustomerID/Customer object in passengerList
         // If found, return index found; If not found, return -1

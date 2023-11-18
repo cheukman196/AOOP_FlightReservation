@@ -75,6 +75,7 @@ namespace AOOP_GroupProject_draft1
                     int flightNum = flightList[i].getFlightNumber();
                     string origin = flightList[i].getOrigin();
                     string destination = flightList[i].getDestination();
+                    int maxSeats = flightList[i].getMaxSeats();
                     int passengerCount = flightList[i].getPassengerCount();
                     Customer[] passengerList = flightList[i].getPassengerList();
                     string passengerIdList = "";
@@ -83,12 +84,53 @@ namespace AOOP_GroupProject_draft1
                         for (int k = 0; k < flightList[i].getPassengerCount(); k++)
                             passengerIdList += flightList[i].getPassengerList()[k].getCustomerID() + ",";
 
-                    sw.WriteLine(flightNum + " " + origin + " " + destination + " " + passengerCount + " " + passengerIdList);
+                    sw.WriteLine(flightNum + " " + origin + " " + destination + " " + maxSeats + " " + passengerCount + " " + passengerIdList);
                 }
             }
             
         }
 
+        public static FlightManager loadFlightFile(string filePath, CustomerManager cm)
+        {
+            if (!File.Exists(filePath))
+                return null;
+
+            FlightManager fm = null;
+            Flight[] flightList = null;
+
+            using (StreamReader sr = new StreamReader(filePath))
+            {
+                int flightCount = int.Parse(sr.ReadLine());
+                int maxFlights = flightCount + 100;
+                flightList = new Flight[maxFlights];
+                for (int i = 0; i < flightCount; i++)
+                {
+                    string[] flightInfo = sr.ReadLine().Split();
+
+                    int flightNumber = int.Parse(flightInfo[0]);
+                    string origin = flightInfo[1];
+                    string destination = flightInfo[2];
+                    int maxSeats = int.Parse(flightInfo[3]);
+                    int passengerCount = int.Parse(flightInfo[4]);
+
+                    Customer[] passengerList = new Customer[passengerCount];
+                    string passengerIdList = flightInfo[5];
+                    if(passengerIdList.Length > 0)
+                    {
+                        string[] passengerIdArray = flightInfo[5].Substring(0, flightInfo[5].Length - 1).Split(",");
+                        for (int k = 0; k < passengerIdArray.Length; k++)
+                        {
+                            Customer customer = cm.retrieveCustomerById(int.Parse(passengerIdArray[k]));
+                            passengerList[k] = customer;
+                        }
+                    }
+                    flightList[i] = Flight.loadFlight(flightNumber, origin, destination, maxSeats, passengerCount, passengerList);
+                }
+                fm = FlightManager.loadFlightManager(flightCount, maxFlights, flightList);
+            }
+            Flight.disableLoadFlight();
+            return fm;
+        }
 
 
         public static void saveBookingFile(string filePath, int bookingCount, Booking[] bookingList)

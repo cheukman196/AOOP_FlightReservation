@@ -16,6 +16,7 @@ namespace AOOP_GroupProject_draft1
             aCoord.createFlight(222, "FDA", "BDE", 10);
             aCoord.createFlight(333, "XPT", "NLQ", 20);
             aCoord.createFlight(444, "EUT", "PKP", 35);
+            aCoord.createFlight(555, "EKF", "VLT", 35);
 
             aCoord.createCustomer("Lee", "Adams", "1111");
             aCoord.createCustomer("Queenie", "Merriweather", "2222");
@@ -57,8 +58,11 @@ namespace AOOP_GroupProject_draft1
             UtilsTextFile.saveClassUniqueID(UtilsTextFile.uniqueClassIDFilePath, Customer.getUniqueCustomerID(), Booking.getUniqueBookingNumber());
 
             CustomerManager loadedCustomerManager = UtilsTextFile.loadCustomerFile(UtilsTextFile.customerManagerFilePath);
+            FlightManager loadedFlightManager = UtilsTextFile.loadFlightFile(UtilsTextFile.flightManagerFilePath, loadedCustomerManager);
 
             Console.WriteLine(loadedCustomerManager.viewCustomers());
+            Console.WriteLine(loadedFlightManager.viewFlights());
+            Console.WriteLine(loadedFlightManager.viewParticularFlight(555));
         }
     }
 }

@@ -28,8 +28,8 @@ namespace AOOP_GroupProject_draft1
         {
             this.customer = customer;
             this.flight = flight;
-            bookingNumber = bookingNumber;
-            bookingDate = bookingDate;
+            this.bookingNumber = bookingNumber;
+            this.bookingDate = bookingDate;
         }
 
         // getters
