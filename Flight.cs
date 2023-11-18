@@ -25,12 +25,13 @@ namespace AOOP_GroupProject_draft1
             this.passengerList = new Customer[maxSeats];
         }
 
+
         // getters
         public int getFlightNumber() { return flightNumber; }
-        public string getOrigin() { return origin;  }
+        public string getOrigin() { return origin; }
         public string getDestination() { return destination; }
         public int getMaxSeats() { return maxSeats; }
-        public int getPassengerCount() { return passengerCount;  }
+        public int getPassengerCount() { return passengerCount; }
         public Customer[] getPassengerList() { return passengerList; }
 
         // setters (only flightNumber, origin and destination, other values manipulated differently)
@@ -79,7 +80,7 @@ namespace AOOP_GroupProject_draft1
             int index = findPassenger(id);
             if (index != -1)
             {
-                passengerList[index] = passengerList[passengerCount-1];
+                passengerList[index] = passengerList[passengerCount - 1];
                 passengerList[passengerCount - 1] = null;
                 passengerCount--;
                 return true;
@@ -90,7 +91,7 @@ namespace AOOP_GroupProject_draft1
         public override string ToString()
         {
             string s = "\n========= Flight Information ==========";
-            s += "\nFlight Number: " + flightNumber; 
+            s += "\nFlight Number: " + flightNumber;
             s += "\nFlight Origin: " + origin;
             s += "\nFlight Destination: " + destination;
             s += "\nFlight Capacity: " + passengerCount + "/" + maxSeats + " passengers";
