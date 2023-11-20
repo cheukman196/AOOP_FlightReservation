@@ -113,7 +113,7 @@ namespace AOOP_GroupProject_draft1
                     int maxSeats = int.Parse(flightInfo[3]);
                     int passengerCount = int.Parse(flightInfo[4]);
 
-                    Customer[] passengerList = new Customer[passengerCount];
+                    Customer[] passengerList = new Customer[maxSeats];
                     string passengerIdList = flightInfo[5];
                     if(passengerIdList.Length > 0)
                     {

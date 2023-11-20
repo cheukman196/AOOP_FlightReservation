@@ -81,7 +81,7 @@ namespace AOOP_GroupProject_draft1
         public String viewCustomers()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("==================== Customer List ====================\n");
+            sb.Append("========================= Customer List =========================\n");
             if (customerCount == 0)
             {
                 sb.Append("No customers in the system yet.\n");
@@ -89,16 +89,16 @@ namespace AOOP_GroupProject_draft1
             }
 
             // if there are Customer objects, append headers and table content
-            sb.Append(string.Format("{0, -5} {1, -32} {2,-16}\n", "*ID*", "*Name*", "*Phone*"));
+            sb.Append(string.Format("{0, -5} {1, -32} {2,-12} {3, -10}\n", "*ID*", "*Name*", "*Phone*", "*Bookings*"));
             for (int i = 0; i < customerCount; i++)
             {
                 if (customerList[i] != null)
                 {
                     int id = customerList[i].getCustomerID();
-                    string firstName = customerList[i].getFirstName();
-                    string lastName = customerList[i].getLastName();
+                    string name = customerList[i].getFirstName() + " " + customerList[i].getLastName();
                     string phone = customerList[i].getPhone();
-                    sb.Append(string.Format("{0, -5} {1, -32} {2,-16}\n", id, firstName + " " + lastName, phone));
+                    int bookingCount = customerList[i].getBookingsCount();
+                    sb.Append(string.Format("{0, -5} {1, -32} {2,-12} {3, -10}\n", id, Menu.limitStringLength(name, 32), phone, bookingCount));
                 }
             }
             return sb.ToString();
