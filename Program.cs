@@ -45,11 +45,17 @@ namespace AOOP_GroupProject_draft1
             //Console.WriteLine(errorE + " " + errorF + " " + errorG + " " + errorH);
             //Console.WriteLine(errorI + " " + errorJ + " " + errorK + " " + errorL);
 
-            Console.WriteLine(aCoord.viewFlights());
-            Console.WriteLine(aCoord.viewCustomers());
-            Console.WriteLine(aCoord.viewBookings());
+            //Console.WriteLine(aCoord.viewFlights());
+            //Console.WriteLine(aCoord.viewCustomers());
+            //Console.WriteLine(aCoord.viewBookings());
 
-            Menu.customerMenu(aCoord);
+
+            //do
+            //{
+            //    Console.WriteLine("Repeat");
+            //} while (Menu.confirmExitOrRepeatAction());
+            Menu.runProgram(aCoord);
+            //Menu.getKeyPress();
 
             UtilsTextFile.saveFlightFile(UtilsTextFile.flightManagerFilePath,
                 aCoord.getFlightManager().getFlightCount(), aCoord.getFlightManager().getFlightList());

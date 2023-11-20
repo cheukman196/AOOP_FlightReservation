@@ -85,20 +85,31 @@ namespace AOOP_GroupProject_draft1
                 return false;
             }
 
-            if(!bm.createBooking(flight, customer))
+            if (flight.findPassenger(customer) != -1)
+            {
+                error += "\nError: Customer has already booked flight."; // when flight is full (passengerCount >= seats)
+                return false;
+            }
+
+            if (!bm.createBooking(flight, customer))
             {
                 error += "\nError: Maximum number of bookings reached."; // when bookingCount > maxBooking (BookingManager)
                 return false;
             }
 
             flight.addPassenger(customer);
-            customer.addBookingsCount();
+            customer.increaseBookingsCount();
             return true;
         }
 
         public string viewBookings()
         {
             return bm.viewBookings();
+        }
+
+        public bool deleteBooking(int id, out string error)
+        {
+            return bm.deleteBooking(id, out error);
         }
     }
 }

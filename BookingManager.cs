@@ -47,25 +47,34 @@ namespace AOOP_GroupProject_draft1
             return false;
         }
 
-        // Overwrite the deleting instance's memory location with the last instance
-        /*public bool deleteBooking(int id)
+        // Delete booking
+        public bool deleteBooking(int id, out string error)
         {
+            error = "";
             int index = findBooking(id);
-            if (index != -1)
+            if (index == -1)
             {
-                // Not overwrite the instance when
-                // booking to be deleted is the last one in the array
-                // !: this doesn't matter too much, try with only one item
-                if (index != bookingCount - 1)
-                {
-                    bookingList[index] = bookingList[bookingCount - 1];
-                    bookingList[bookingCount - 1] = null;
-                    bookingCount--;
-                }
-                return true;
+                error += "\nError: Booking not found.";
+                return false;
             }
-            return false;
-        }*/
+
+            Customer customer = bookingList[index].getCustomer();
+            Flight flight = bookingList[index].getFlight();
+            
+            if(customer == null || flight == null)
+            {
+                error += "\nError: Incomplete information of Booking in system.";
+                return false;
+            }
+
+            
+            bookingList[index] = bookingList[bookingCount - 1];
+            bookingList[bookingCount - 1] = null;
+            bookingCount--;
+            customer.decreaseBookingsCount();
+            flight.removePassenger(customer);
+            return true;            
+        }
 
         // updated view Bookings to format strings
         public String viewBookings()
@@ -79,7 +88,7 @@ namespace AOOP_GroupProject_draft1
             }
 
             string customerName = "";
-            int flightNum = 0;
+            string flightNum = "";
             int bookingNumber = 0;
             string bookingDate = "";
             
@@ -94,12 +103,12 @@ namespace AOOP_GroupProject_draft1
                     Customer customer = bookingList[i].getCustomer();
                     if (flight != null && customer != null)
                     {
-                        flightNum = flight.getFlightNumber();
+                        flightNum = flight.getFlightNumber().ToString();
                         customerName = customer.getFirstName() + " " + customer.getLastName();
 
                     }
                     bookingDate = bookingList[i].getBookingDate();
-                    sb.Append(string.Format("{0, -6} {1, -10} {2,-32} {3,-20}\n", bookingNumber, flightNum, customerName, bookingDate));
+                    sb.Append(string.Format("{0, -6} {1, -10} {2,-32} {3,-20}\n", bookingNumber, Menu.limitStringLength(flightNum, 6), Menu.limitStringLength(customerName,32), bookingDate));
                 }
 
             }

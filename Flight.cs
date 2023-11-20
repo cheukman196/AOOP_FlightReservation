@@ -53,11 +53,12 @@ namespace AOOP_GroupProject_draft1
         // Overloaded method
         // Find passenger: try to find passenger by int CustomerID/Customer object in passengerList
         // If found, return index found; If not found, return -1
-        private int findPassenger(Customer passenger)
+        // made public since addPassengers need to check if passenger already exists
+        public int findPassenger(Customer passenger)
         {
             for(int i = 0; i < passengerCount; i++)
             {
-                if (passengerList[i] == passenger)
+                if (passengerList[i].Equals(passenger))
                     return i;
             }
             return -1;
@@ -99,22 +100,39 @@ namespace AOOP_GroupProject_draft1
             return false;
         }
 
+        public bool removePassenger(Customer passenger)
+        {
+            int index = findPassenger(passenger);
+            if (index != -1)
+            {
+                passengerList[index] = passengerList[passengerCount - 1];
+                passengerList[passengerCount - 1] = null;
+                passengerCount--;
+                return true;
+            }
+            return false;
+        }
+
 
         public override string ToString()
         {
-            string s = "\n========= Flight Information ==========";
-            s += "\nFlight Number: " + flightNumber;
-            s += "\nFlight Origin: " + origin;
-            s += "\nFlight Destination: " + destination;
-            s += "\nFlight Capacity: " + passengerCount + "/" + maxSeats + " passengers";
-            s += "\n==== Passenger List =====";
+            string s = "========= Flight Information ==========";
+            s += "\nFlight Number:\t\t" + flightNumber;
+            s += "\nFlight Origin:\t\t" + origin;
+            s += "\nFlight Destination:\t" + destination;
+            s += "\nFlight Capacity:\t" + passengerCount + "/" + maxSeats + " passengers";
+            s += "\n\n==== Passenger List =====";
             if (passengerCount > 0)
             {
                 for (int i = 0; i < passengerCount; i++)
-                    s += "\n" + passengerList[i].getCustomerID() + "\t" + passengerList[i].getFirstName() + " " + passengerList[i].getLastName();
+                {
+                    s += "\n" + passengerList[i].getCustomerID() + "\t";
+                    string name = passengerList[i].getFirstName() + " " + passengerList[i].getLastName();
+                    s += Menu.limitStringLength(name, 40);
+                }
             }
             else
-                s += "\nFlight is currently not booked by any customers.";
+                s += "\nFlight is currently not booked by any customers.\n";
 
             return s;
         }

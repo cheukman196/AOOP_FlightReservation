@@ -48,7 +48,8 @@ namespace AOOP_GroupProject_draft1
         public static int getUniqueCustomerID() { return uniqueCustomerID; }
 
         // For createBooking
-        public void addBookingsCount() { bookingsCount++; }
+        public void increaseBookingsCount() { bookingsCount++; }
+        public void decreaseBookingsCount() { bookingsCount--; }
 
         // For loading a file and creating a customer
         public static void disableLoadCustomer() { loadCustomerDisabled = true; }
