@@ -56,15 +56,24 @@ namespace AOOP_GroupProject_draft1
         // tries to create a new Flight object 
         // condition: flight count is smaller than max allowed
         // condition: flight number is not a duplicate
-        public bool createFlight(int flightNumber, string origin, string destination, int maxSeats)
+        public bool createFlight(int flightNumber, string origin, string destination, int maxSeats, out string error)
         {
-            if(flightCount < maxFlights && findFlight(flightNumber) == -1)
+            error = "";
+            if(flightCount >= maxFlights)
             {
-                flightList[flightCount] = new Flight(flightNumber, origin, destination, maxSeats);
-                flightCount++;
-                return true;
+                error += "\nError: System's flight limit reached.";
+                return false;
             }
-            return false;
+
+            if (findFlight(flightNumber) != -1)
+            {
+                error += "\nError: Flight with same flight number already exists.";
+                return false;
+            }
+
+            flightList[flightCount] = new Flight(flightNumber, origin, destination, maxSeats);
+            flightCount++;
+            return true;
         }
 
         // delete Flight object by a flightNumber input

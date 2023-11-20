@@ -8,14 +8,14 @@ namespace AOOP_GroupProject_draft1
 {
     class AirlineCoordinator
     {
-        private FlightManager fm;
         private CustomerManager cm;
+        private FlightManager fm;
         private BookingManager bm;
 
-        public AirlineCoordinator(FlightManager fm, CustomerManager cm, BookingManager bm)
+        public AirlineCoordinator (CustomerManager cm, FlightManager fm, BookingManager bm)
         {
-            this.fm = fm;
             this.cm = cm;
+            this.fm = fm;
             this.bm = bm;
         }
 
@@ -23,9 +23,9 @@ namespace AOOP_GroupProject_draft1
         public CustomerManager getCustomerManager() { return cm; }
         public BookingManager getBookingManager() { return bm; }
 
-        public bool createFlight(int flightNumber, string origin, string destination, int maxSeats)
+        public bool createFlight(int flightNumber, string origin, string destination, int maxSeats, out string error)
         {
-            return fm.createFlight(flightNumber, origin, destination, maxSeats); 
+            return fm.createFlight(flightNumber, origin, destination, maxSeats, out error); 
         }
 
         public bool deleteFlight(int flightNumber, out string error)
@@ -43,9 +43,9 @@ namespace AOOP_GroupProject_draft1
             return fm.viewParticularFlight(id);
         }
 
-        public bool createCustomer(string fName, string lName, string phone)
+        public bool createCustomer(string fName, string lName, string phone, out string error)
         {
-            return cm.createCustomer(fName, lName, phone);
+            return cm.createCustomer(fName, lName, phone, out error);
         }
 
         public bool deleteCustomer(int id, out string error)
@@ -92,7 +92,7 @@ namespace AOOP_GroupProject_draft1
             }
 
             flight.addPassenger(customer);
-            customer.increaseBookingsCount();
+            customer.addBookingsCount();
             return true;
         }
 

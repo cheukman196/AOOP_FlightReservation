@@ -121,6 +121,8 @@ namespace AOOP_GroupProject_draft1
                         for (int k = 0; k < passengerIdArray.Length; k++)
                         {
                             Customer customer = cm.retrieveCustomerById(int.Parse(passengerIdArray[k]));
+                            if (customer == null)
+                                continue;
                             passengerList[k] = customer;
                         }
                     }
@@ -149,12 +151,63 @@ namespace AOOP_GroupProject_draft1
             }
         }
 
+        public static BookingManager loadBookingFile(string filePath, CustomerManager cm, FlightManager fm)
+        {
+            if (!File.Exists(filePath))
+                return null;
+
+            BookingManager bm = null;
+            Booking[] bookingList = null;
+
+            using (StreamReader sr = new StreamReader(filePath))
+            {
+                int bookingCount = int.Parse(sr.ReadLine());
+                int maxBookings = bookingCount + 100;
+                bookingList = new Booking[maxBookings];
+                for (int i = 0; i < bookingCount; i++)
+                {
+                    string[] bookingInfo = sr.ReadLine().Split();
+
+                    int bookingNumber = int.Parse(bookingInfo[0]);
+                    string bookingDate = bookingInfo[1].Replace("-", " "); // remove dashes from save file
+                    int flightNumber = int.Parse(bookingInfo[2]);
+                    int customerID = int.Parse(bookingInfo[3]);
+
+                    Flight flight = fm.retrieveFlightById(flightNumber);
+                    Customer customer = cm.retrieveCustomerById(customerID);
+
+                    if (flight == null || customer == null)
+                        continue;
+                    bookingList[i] = Booking.loadBooking(bookingNumber, bookingDate, flight, customer);
+                }
+                bm = BookingManager.loadBookingManager(bookingCount, maxBookings, bookingList);
+            }
+            Booking.disableLoadBooking();
+            return bm;
+        }
+
+
         public static void saveClassUniqueID(string filePath, int uniqueCustomerID, int uniqueBookingNumber)
         {
             using (StreamWriter sw = new StreamWriter(filePath, false))
             {
-                sw.WriteLine(uniqueCustomerID + " " + uniqueBookingNumber);
+                sw.WriteLine(uniqueCustomerID);
+                sw.WriteLine(uniqueBookingNumber);
             }
+        }
+
+        public static bool loadClassUniqueID(string filePath)
+        {
+            if (!File.Exists(filePath))
+                return false;
+            using (StreamReader sr = new StreamReader(filePath))
+            {
+                int uniqueCustomerID = int.Parse(sr.ReadLine());
+                int uniqueBookingNumber = int.Parse(sr.ReadLine());
+
+                return Booking.loadUniqueBookingNumber(uniqueBookingNumber) && Customer.loadUniqueCustomerID(uniqueCustomerID);
+            }
+
         }
     }
 }

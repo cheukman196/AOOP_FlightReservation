@@ -19,22 +19,18 @@ namespace AOOP_GroupProject_draft1
             this.bookingList = new Booking[max];
         }
 
+        // for loading the booking manager
+        // called by loadBookingManager()
+        private BookingManager(int bookingCount, int maxBookings, Booking[] bookingList)
+        {
+            this.bookingCount = bookingCount;
+            this.maxBookings = maxBookings;
+            this.bookingList = bookingList;
+        }
+
         public int getBookingCount() { return bookingCount; }
         public int getMaxBookings() { return maxBookings; }
         public Booking[] getBookingList() { return bookingList; }
-
-        // find booking by bookingNumber
-        // if found, return index, if not return -1
-        private int findBooking(int bookingNumber)
-        {
-            if(bookingCount > 0)
-            {
-                for (int i = 0; i < bookingCount; i++)
-                    if (bookingList[i].getBookingNumber() == bookingNumber)
-                        return i;               
-            }
-            return -1;
-        }
 
         // create booking
         // condition: customer manager's customer list not already full
@@ -51,6 +47,27 @@ namespace AOOP_GroupProject_draft1
             return false;
         }
 
+        // Overwrite the deleting instance's memory location with the last instance
+        /*public bool deleteBooking(int id)
+        {
+            int index = findBooking(id);
+            if (index != -1)
+            {
+                // Not overwrite the instance when
+                // booking to be deleted is the last one in the array
+                // !: this doesn't matter too much, try with only one item
+                if (index != bookingCount - 1)
+                {
+                    bookingList[index] = bookingList[bookingCount - 1];
+                    bookingList[bookingCount - 1] = null;
+                    bookingCount--;
+                }
+                return true;
+            }
+            return false;
+        }*/
+
+        // updated view Bookings to format strings
         public String viewBookings()
         {
             StringBuilder sb = new StringBuilder();
@@ -85,9 +102,27 @@ namespace AOOP_GroupProject_draft1
                     sb.Append(string.Format("{0, -6} {1, -10} {2,-32} {3,-20}\n", bookingNumber, flightNum, customerName, bookingDate));
                 }
 
-
             }
             return sb.ToString();
+        }
+
+        // find booking by bookingNumber
+        // if found, return index, if not return -1
+        private int findBooking(int bookingNumber)
+        {
+            if (bookingCount > 0)
+            {
+                for (int i = 0; i < bookingCount; i++)
+                    if (bookingList[i].getBookingNumber() == bookingNumber)
+                        return i;
+            }
+            return -1;
+        }
+
+        // !
+        public static BookingManager loadBookingManager(int bookingCount, int maxBookings, Booking[] bookingList)
+        {
+            return new BookingManager(bookingCount, maxBookings, bookingList);
         }
     }
 }
