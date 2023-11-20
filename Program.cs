@@ -5,14 +5,39 @@ namespace AOOP_GroupProject_draft1
     class Program
     {
         static AirlineCoordinator aCoord;
+
+        // ===== COMP2129 Fall 2023 - Group Project Members =====
+        // Yu Tanaka (101427066)
+        // Cheuk Man Sit (101422756)
+
         static void Main(string[] args)
         {
+            // Load files
             CustomerManager cm = UtilsTextFile.loadCustomerFile(UtilsTextFile.customerManagerFilePath);
             FlightManager fm = UtilsTextFile.loadFlightFile(UtilsTextFile.flightManagerFilePath, cm);
             BookingManager bm = UtilsTextFile.loadBookingFile(UtilsTextFile.bookingManagerFilePath, cm, fm);
             UtilsTextFile.loadClassUniqueID(UtilsTextFile.uniqueClassIDFilePath);
 
+            // create Cooridnator class
             aCoord = new AirlineCoordinator(cm, fm, bm);
+
+            // Run program (main menu and sub menus)
+            Menu.runProgram(aCoord);
+
+
+            // Save files (on normal exit)
+            // drawback: files will not be saved on sudden termination of console
+            UtilsTextFile.saveFlightFile(UtilsTextFile.flightManagerFilePath,
+                aCoord.getFlightManager().getFlightCount(), aCoord.getFlightManager().getFlightList());
+
+            UtilsTextFile.saveCustomerFile(UtilsTextFile.customerManagerFilePath,
+               aCoord.getCustomerManager().getCustomerCount(), aCoord.getCustomerManager().getCustomerList());
+
+            UtilsTextFile.saveBookingFile(UtilsTextFile.bookingManagerFilePath,
+               aCoord.getBookingManager().getBookingCount(), aCoord.getBookingManager().getBookingList());
+
+            UtilsTextFile.saveClassUniqueID(UtilsTextFile.uniqueClassIDFilePath, Customer.getUniqueCustomerID(), Booking.getUniqueBookingNumber());
+
 
             //aCoord.createFlight(111, "HKG", "YYZ", 4);
             //aCoord.createFlight(222, "FDA", "BDE", 10);
@@ -49,35 +74,6 @@ namespace AOOP_GroupProject_draft1
             //Console.WriteLine(aCoord.viewCustomers());
             //Console.WriteLine(aCoord.viewBookings());
 
-
-            //do
-            //{
-            //    Console.WriteLine("Repeat");
-            //} while (Menu.confirmExitOrRepeatAction());
-            Menu.runProgram(aCoord);
-            //Menu.getKeyPress();
-
-            UtilsTextFile.saveFlightFile(UtilsTextFile.flightManagerFilePath,
-                aCoord.getFlightManager().getFlightCount(), aCoord.getFlightManager().getFlightList());
-
-            UtilsTextFile.saveCustomerFile(UtilsTextFile.customerManagerFilePath,
-               aCoord.getCustomerManager().getCustomerCount(), aCoord.getCustomerManager().getCustomerList());
-
-            UtilsTextFile.saveBookingFile(UtilsTextFile.bookingManagerFilePath,
-               aCoord.getBookingManager().getBookingCount(), aCoord.getBookingManager().getBookingList());
-
-            UtilsTextFile.saveClassUniqueID(UtilsTextFile.uniqueClassIDFilePath, Customer.getUniqueCustomerID(), Booking.getUniqueBookingNumber());
-
-            //CustomerManager loadedCustomerManager = UtilsTextFile.loadCustomerFile(UtilsTextFile.customerManagerFilePath);
-            //FlightManager loadedFlightManager = UtilsTextFile.loadFlightFile(UtilsTextFile.flightManagerFilePath, loadedCustomerManager);
-            //BookingManager loadedBookingManager = UtilsTextFile.loadBookingFile(UtilsTextFile.bookingManagerFilePath, loadedCustomerManager, loadedFlightManager);
-            //UtilsTextFile.loadClassUniqueID(UtilsTextFile.uniqueClassIDFilePath);
-
-            //Console.WriteLine(loadedCustomerManager.viewCustomers());
-            //Console.WriteLine(loadedFlightManager.viewFlights());
-            //Console.WriteLine(loadedFlightManager.viewParticularFlight(555));
-            //Console.WriteLine(loadedBookingManager.viewBookings());
-            //Console.WriteLine(Customer.getUniqueCustomerID() + " " + Booking.getUniqueBookingNumber());
         }
     }
 }
