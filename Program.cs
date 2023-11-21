@@ -9,7 +9,6 @@ namespace AOOP_GroupProject_draft1
         // ===== COMP2129 Fall 2023 - Group Project Members =====
         // Yu Tanaka (101427066)
         // Cheuk Man Sit (101422756)
-
         static void Main(string[] args)
         {
             // Load files
